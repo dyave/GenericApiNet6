@@ -1,4 +1,5 @@
 using GenericApiNet6.Context;
+using GenericApiNet6.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericApiNet6.Controllers

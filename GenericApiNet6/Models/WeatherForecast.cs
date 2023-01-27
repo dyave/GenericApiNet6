@@ -1,4 +1,4 @@
-namespace GenericApiNet6
+namespace GenericApiNet6.Models
 {
     public class WeatherForecast
     {
