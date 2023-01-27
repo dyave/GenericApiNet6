@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenericApiNet6.Context;
 using GenericApiNet6.Models;
+using AutoMapper;
+using GenericApiNet6.Dtos;
 
 namespace GenericApiNet6.Controllers
 {
@@ -15,22 +17,27 @@ namespace GenericApiNet6.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AdventureWorksLT2019Context _context;
+        private readonly IMapper _mapper;
 
-        public ProductsController(AdventureWorksLT2019Context context)
+        public ProductsController(AdventureWorksLT2019Context context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            var products = await _context.Products.ToListAsync();
+
+            // No sé por qué pero no funciona con IEnumerable, pero sí con List:
+            return _mapper.Map<List<ProductDto>>(products);
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -39,7 +46,7 @@ namespace GenericApiNet6.Controllers
                 return NotFound();
             }
 
-            return product;
+            return _mapper.Map<ProductDto>(product);
         }
 
         // PUT: api/Products/5

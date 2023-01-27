@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AdventureWorksLT2019Context>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("AdventureWorks"))
     );
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
